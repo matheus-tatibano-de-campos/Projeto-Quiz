@@ -7,17 +7,18 @@ interface BotaoProps {
     onClick?: (e: any) => void
 }
 
+
 export default function Botao(props: BotaoProps) {
 
     function renderizarBotao() {
         return (
             <button className={styles.botao}
-            onClick={props.onClick}>
+                onClick={props.onClick}>
                 {props.texto}
             </button>
         )
     }
-    
+
     return props.href ? (
         <Link href={props.href}>
             {renderizarBotao()}

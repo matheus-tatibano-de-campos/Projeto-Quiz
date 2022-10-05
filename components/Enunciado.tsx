@@ -6,9 +6,8 @@ interface EnunciadoProps {
 
 export default function Enunciado(props: EnunciadoProps) {
     return (
-    <div className={styles.enuciado}>
-        <span className={styles.texto}>{props.texto}</span>
+        <div className={styles.enunciado}>
+            <span className={styles.texto}>{props.texto}</span>
         </div>
-
     )
 }

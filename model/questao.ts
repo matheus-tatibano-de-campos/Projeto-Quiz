@@ -1,5 +1,5 @@
-import { embaralhar } from "../functions/array"
-import RespostaModel from "./respsota"
+import { embaralhar } from "../functions/arrays"
+import RespostaModel from "./resposta"
 
 export default class QuestaoModel {
     #id: number
@@ -30,11 +30,14 @@ export default class QuestaoModel {
         return this.#acertou
     }
 
-    get respondida() {
-        for(let respsota of this.#respostas) {
-            if(respsota.revelada) return  true
-        }
+    get naoRespondida() {
+        return !this.respondida
+    }
 
+    get respondida() {
+        for (let resposta of this.#respostas) {
+            if (resposta.revelada) return true
+        }
         return false
     }
 
@@ -43,29 +46,28 @@ export default class QuestaoModel {
         const respostas = this.#respostas.map((resposta, i) => {
             const respostaSelecionada = indice === i
             const deveRevelar = respostaSelecionada || resposta.certa
-            return deveRevelar ? resposta.revelar(): resposta
+            return deveRevelar ? resposta.revelar() : resposta
         })
         return new QuestaoModel(this.id, this.enunciado, respostas, acertou)
-
-     }
+    }
 
     embaralharRespostas(): QuestaoModel {
-        let respEmbaralhadas = embaralhar(this.respostas)
-        return new QuestaoModel(this.#id, this.#enunciado, respEmbaralhadas, this.#acertou)
+        let respostasEmbaralhadas = embaralhar(this.#respostas)
+        return new QuestaoModel(this.#id, this.#enunciado, respostasEmbaralhadas, this.#acertou)
     }
 
-  ParaObjeto() {
-    return {
-        id: this.#id,
-        enunciado: this.#enunciado,
-        respostas: this.#respostas.map(resp => resp.ParaObjeto()),
-        respondida: this.respondida,
-        acertou: this.#acertou
+    static criarUsandoObjeto(obj: QuestaoModel): QuestaoModel {
+        const respostas = obj.respostas.map(resp => RespostaModel.criarUsandoObjeto(resp))
+        return new QuestaoModel(obj.id, obj.enunciado, respostas, obj.acertou)
     }
-  }
 
-
-    get naoRespondida() {
-        return !this.respondida
+    paraObjeto() {
+        return {
+            id: this.#id,
+            enunciado: this.#enunciado,
+            respondida: this.respondida,
+            acertou: this.#acertou,
+            respostas: this.#respostas.map(resp => resp.paraObjeto()),
+        }
     }
 }

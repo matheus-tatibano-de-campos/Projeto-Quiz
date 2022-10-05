@@ -1,4 +1,4 @@
-import { embaralhar } from '../../../functions/array'
+import { embaralhar } from '../../../functions/arrays'
 import questoes from '../bancoDeQuestoes'
 
 export default function questionario(req, res) {
